@@ -44,15 +44,15 @@ let diagonal = [
  */
 let grid = [
     [0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 3, 0, 0, 0, 4, 4, 0, 0],
+    [0, 0, 3, 0, 0, 4, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 4, 4, 0, 0],
     [0, 0, 3, 0, 0, 0, 0, 0, 4, 0],
     [0, 0, 3, 0, 0, 0, 0, 0, 4, 0],
-    [0, 4, 0, 0, 0, 4, 4, 0, 4, 0],
+    [0, 0, 0, 0, 0, 4, 4, 0, 4, 0],
     [0, 4, 0, 4, 0, 4, 0, 0, 4, 0],
-    [0, 4, 0, 4, 0, 0, 0, 4, 9, 0],
+    [0, 4, 0, 4, 0, 0, 0, 4, 0, 0],
     [0, 4, 0, 4, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 4, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 4, 0, 0, 0, 9, 0, 0],
 ]
 
 let id = 0
@@ -197,7 +197,6 @@ function FindPath(node) {
 
     let children = GetNodesByNode(node)
 
-    children = TryRecalcNodes(node, children)
     children = GetOnlyNodesValid(node, children)
 
     AddOpenList(children)
@@ -294,24 +293,6 @@ function GetNodesByNode(parent) {
     checkAddResult(bottomRight, Direction.BottomRight)
 
     return result
-}
-
-function TryRecalcNodes(parent, nodes) {
-
-    let listOpen = ListOpenNodes()
-
-    return nodes.map((n, index) => {
-        if(listOpen.includes(n.id)) {
-            let recalc = n.tryRecalc(parent.getG())
-
-            if(recalc) {
-                n.setParent(parent)
-                ReplaceNodeInOpenList(n)
-            }
-        }
-
-        return n
-    })
 }
 
 function GetOnlyNodesValid(node, nodes) {
