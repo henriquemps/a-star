@@ -45,11 +45,11 @@ let diagonal = [
 let grid = [
     [0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 3, 0, 0, 4, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 4, 4, 0, 0],
+    [1, 0, 3, 0, 0, 0, 4, 4, 0, 0],
     [0, 0, 3, 0, 0, 0, 0, 0, 4, 0],
     [0, 0, 3, 0, 0, 0, 0, 0, 4, 0],
     [0, 0, 0, 0, 0, 4, 4, 0, 4, 0],
-    [0, 4, 0, 4, 0, 4, 0, 0, 4, 0],
+    [0, 4, 0, 4, 4, 4, 0, 0, 4, 0],
     [0, 4, 0, 4, 0, 0, 0, 4, 0, 0],
     [0, 4, 0, 4, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 4, 0, 0, 0, 9, 0, 0],
@@ -77,14 +77,23 @@ function preload() {
 function setup() {
     createCanvas(400, 400)
     noLoop()
+    
+    drawAnimeHero(0)
 }
 
-function draw() {
+function drawAnimeHero(pos) {
     background(220);
 
     DrawNodes()
 
-    hero.draw()
+    if(pos < path.length) {
+      hero.setPosition(path[pos].row, path[pos].col)
+      hero.draw()
+
+      setTimeout(() => {
+        drawAnimeHero(pos+1)
+      }, 1000)
+    }
 }
 
 /**
@@ -119,10 +128,10 @@ function Mount() {
 
             ++id
 
-            if(Type.Hero === grid[row][col]) {
-                nodes[row].push(hero)
-                continue
-            }
+            // if(Type.Hero === grid[row][col]) {
+            //     nodes[row].push(hero)
+            //     continue
+            // }
 
             if(Type.End === grid[row][col]) {
                 nodes[row].push(end)
